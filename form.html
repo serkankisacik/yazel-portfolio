@@ -1,0 +1,57 @@
+<?php
+// Sayfanın en başında verileri çekmek için bağlantıyı çağırıyoruz
+include("conn.php"); 
+?>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>Yönetim Paneli - Profil Güncelle</title>
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <style>
+        .admin-form { max-width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
+        .admin-form input { width: 100%; margin-bottom: 15px; padding: 8px; }
+        .admin-form label { font-weight: bold; font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body>
+
+<div class="admin-form">
+    <h2>🚀 Profilini Güncelle</h2>
+    <hr>
+    
+    <form action="admin_islem.php" method="post">
+        <label>Adınız:</label>
+        <input type="text" name="adi" value="<?php echo $cikti['ad']; ?>" required />
+
+        <label>Soyadınız:</label>
+        <input type="text" name="soyadi" value="<?php echo $cikti['soyad']; ?>" required />
+
+        <label>E-posta:</label>
+        <input type="email" name="eposta" value="<?php echo $cikti['email']; ?>" required />
+
+        <label>Telefon:</label>
+        <input type="text" name="telefon" value="<?php echo $cikti['telefon']; ?>" />
+
+        <label>Uzmanlık Alanı:</label>
+        <input type="text" name="uzmanlik" value="<?php echo $cikti['uzmanlik_alani']; ?>" />
+
+        <label>Deneyim Süresi (Yıl):</label>
+        <input type="number" name="deneyim" value="<?php echo $cikti['deneyim_suresi']; ?>" />
+
+        <label>Ülke:</label>
+        <input type="text" name="ulke" value="<?php echo $cikti['ulke']; ?>" />
+
+        <label>Doğum Tarihi:</label>
+        <input type="date" name="dogum_tarihi" value="<?php echo $cikti['dogum_tarihi']; ?>" />
+
+        <label>Bildiğiniz Diller:</label>
+        <input type="text" name="dil" value="<?php echo $cikti['dil']; ?>" />
+
+        <input type="submit" value="Bilgileri Veritabanına Yaz" class="btn btn-primary" style="width:100%; cursor:pointer;">
+    </form>
+</div>
+
+</body>
+</html>
