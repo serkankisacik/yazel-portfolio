@@ -1,4 +1,11 @@
 <?php
+session_start();
+// Oturum kontrolü: Eğer giriş yapılmamışsa login.php'ye yönlendir
+if (!isset($_SESSION['oturum']) || $_SESSION['oturum'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
 // 1. Veritabanı bağlantımızı alalım
 try {
     $baglanti = new PDO("mysql:host=localhost;dbname=yazel", "root", "");
@@ -24,7 +31,7 @@ try {
         $dil      = $_POST['dil'];
 
         // RESİM YÜKLEME İŞLEMİ
-        $resim_adi = $cikti['resim']; // Varsayılan olarak eski resim kalsın
+        $resim_adi = $cikti['resim']; 
 
         if (isset($_FILES['profil_resmi']) && $_FILES['profil_resmi']['error'] == 0) {
             $izin_verilenler = ['jpg', 'jpeg', 'png', 'gif'];
@@ -32,22 +39,19 @@ try {
             $dosya_uzantisi = strtolower(pathinfo($dosya_adi, PATHINFO_EXTENSION));
 
             if (in_array($dosya_uzantisi, $izin_verilenler)) {
-                // Çakışma olmasın diye benzersiz isim veriyoruz (Örn: profil_170856123.jpg)
                 $yeni_isim = "profil_" . time() . "." . $dosya_uzantisi;
                 $hedef_yol = "uploads/" . $yeni_isim;
 
-                // uploads klasörü yoksa oluştur
                 if (!is_dir('uploads')) {
                     mkdir('uploads', 0777, true);
                 }
 
                 if (move_uploaded_file($_FILES['profil_resmi']['tmp_name'], $hedef_yol)) {
-                    $resim_adi = $yeni_isim; // Başarılıysa yeni ismi değişkene ata
+                    $resim_adi = $yeni_isim; 
                 }
             }
         }
 
-        // SQL Güncelleme Sorgusu (resim sütunu eklendi)
         $sql = "UPDATE kisiler SET 
                 ad=?, soyad=?, email=?, telefon=?, 
                 uzmanlik_alani=?, deneyim_suresi=?, ulke=?, dogum_tarihi=?, dil=?, resim=? 
@@ -58,7 +62,6 @@ try {
 
         if ($islem) {
             echo "<div style='background:#d4edda; color:#155724; padding:15px; text-align:center;'>✅ Bilgiler ve Resim başarıyla güncellendi!</div>";
-            // Sayfayı yenileyelim ki yeni bilgiler ve resim görünsün
             header("Refresh: 2; url=admin.php");
         }
     }
@@ -76,6 +79,12 @@ try {
     <style>
         body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
         .form-container { background: white; max-width: 500px; margin: auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        
+        /* Başlık ve Çıkış Butonu Düzeni */
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .logout-btn { background: #dc3545; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        .logout-btn:hover { background: #a71d2a; }
+
         input { width: 95%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
         label { font-weight: bold; font-size: 14px; }
         button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px; }
@@ -86,7 +95,11 @@ try {
 <body>
 
 <div class="form-container">
-    <h2>🛠️ Profil Düzenleme</h2>
+    <div class="admin-header">
+        <h2 style="margin:0;">🛠️ Profil Düzenleme</h2>
+        <a href="logout.php" class="logout-btn">Güvenli Çıkış</a>
+    </div>
+
     <form method="POST" action="admin.php" enctype="multipart/form-data">
         
         <label>Mevcut Profil Resmi:</label>
