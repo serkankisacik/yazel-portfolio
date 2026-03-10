@@ -1,22 +1,13 @@
 <?php
 session_start();
+include("conn.php"); 
 // Oturum kontrolü: Eğer giriş yapılmamışsa login.php'ye yönlendir
 if (!isset($_SESSION['oturum']) || $_SESSION['oturum'] !== true) {
     header("Location: login.php");
     exit;
 }
 
-// 1. Veritabanı bağlantımızı alalım
 try {
-    $baglanti = new PDO("mysql:host=localhost;dbname=yazel", "root", "");
-    $baglanti->exec("SET NAMES utf8");
-    $baglanti->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Mevcut verileri çekelim (Hem form içi hem de eski resim ismini korumak için)
-    $getir = $baglanti->prepare("SELECT * FROM kisiler WHERE id=1");
-    $getir->execute();
-    $cikti = $getir->fetch(PDO::FETCH_ASSOC);
-
     // 2. EĞER "KAYDET" BUTONUNA BASILDIYSA (GÜNCELLEME İŞLEMİ)
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         

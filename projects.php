@@ -44,7 +44,7 @@ include("conn.php");
                 <div class="header-border-bottom d-flex align-items-center justify-content-between flex-grow-1">
 
                     <a href="index.php">
-                        <img src="assets/images/logo/logo.png" alt="logo">
+                        <img src="uploads/imza.png" alt="logo">
                     </a>
 
                     <!-- Link Start -->
@@ -82,7 +82,7 @@ include("conn.php");
             <div>
                 <div class="d-flex flex-wrap justify-content-between align-items-center offcanvas-header">
                     <a href="index.php">
-                        <img src="assets/images/logo/offcanvas-logo.png" alt="">
+                        <img src="uploads/imza.png" alt="">
                     </a>
                     <button id="offcanvas-close" class="offcanvas-close bg-primary border-0" data-bs-dismiss="offcanvas" aria-label="Close">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
