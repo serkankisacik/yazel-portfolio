@@ -1,10 +1,11 @@
 <?php
+require_once 'config.php';
 $sira = 1;
+
 
 try {
     // 1. Veritabanı Bağlantısı
-    $baglanti = new PDO("mysql:host=127.0.0.1;dbname=yazel", "root", "");
-    $baglanti->exec("SET NAMES utf8");
+    $baglanti = new PDO(DB_DSN, DB_USER, DB_PASS);
     $baglanti->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 2. Veriyi Hazırlama ve Çekme
